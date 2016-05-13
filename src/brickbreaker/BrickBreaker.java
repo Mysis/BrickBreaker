@@ -37,7 +37,7 @@ public class BrickBreaker extends Application {
 
     private IntegerProperty score = new SimpleIntegerProperty(0);
     Text txtScore;
-    int lives = 3;
+    int lives = Constants.STARTING_LIVES;
     List<Circle> livesIconList = new ArrayList();
 
     @Override
@@ -136,7 +136,7 @@ public class BrickBreaker extends Application {
     
     public void decreaseLife() {
         lives -= 1;
-        if (lives <= 0) {
+        if (lives <= -1) {
             System.out.println("Game Over");
             System.exit(0);
         }

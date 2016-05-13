@@ -17,6 +17,8 @@ public final class Constants {
     public static final double BOUNDARY_WIDTH = 10;
     public static final Color BOUNDARY_COLOR = Color.BROWN;
     
+    public static final int STARTING_LIVES = 2;
+    
     public static final double BRICKS_WIDTH = 50;
     public static final double BRICKS_HEIGHT = 20;
     public static final Color BRICKS_COLOR = Color.WHITE;

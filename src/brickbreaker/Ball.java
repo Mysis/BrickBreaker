@@ -59,8 +59,14 @@ public class Ball {
         double y1 = brick.getCenterY();
         double y2 = centerY.get();
         //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2);
-        double ballAngle = Math.toDegrees(Math.atan((y2 - y1) / (x2 - x1)));
+        double ballAngle = Math.toDegrees(Math.atan(Math.abs((y2 - y1) / (x2 - x1))));
+        if (ballAngle > Constants.BRICK_DIAGONAL_ANGLE) {
+            changeYDirection();
+        } else {
+            changeXDirection();
+        }
         //System.out.println(ballAngle);
+        /*
         if ((ballAngle > Constants.BRICK_DIAGONAL_ANGLE && ballAngle < 180 - Constants.BRICK_DIAGONAL_ANGLE) || 
                 (ballAngle > -180 + Constants.BRICK_DIAGONAL_ANGLE && ballAngle < -1 * Constants.BRICK_DIAGONAL_ANGLE)) {
             changeYDirection();
@@ -71,6 +77,7 @@ public class Ball {
         }
         //System.out.println(Constants.BRICK_DIAGONAL_ANGLE);
         //System.out.println("pausing");
+        */
     }
     public void collideWithPaddle(Paddle paddle) {
         double x1 = paddle.getCenterX();
