@@ -142,6 +142,7 @@ public class BrickBreaker extends Application {
         }
         mainGroup.getChildren().remove(livesIconList.get(lives));
         livesIconList.remove(lives);
+        mainGroup.getChildren().remove(mainBall.getShape());
         mainBall = new Ball(Constants.BALL_STARTX, Constants.BALL_STARTY);
         mainGroup.getChildren().add(mainBall.getShape());
     }
