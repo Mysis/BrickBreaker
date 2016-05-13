@@ -21,10 +21,11 @@ public class Ball {
     private double speedX = Math.sqrt(2) / 2;
     private double speedY = Math.sqrt(2) / 2;
     private boolean movingRight = true;
-    private boolean movingDown = false;
+    private boolean movingDown = true;
     private double speed = Constants.BALL_START_SPEED;
     
-    private final Timeline ballAnimation;
+    private Timeline ballAnimation;
+    private final Timeline waitPeriod;
     private boolean hasUpdated;
     
     public Ball(double startX, double startY) {
@@ -32,15 +33,19 @@ public class Ball {
         centerX.set(startX);
         centerY.set(startY);
         
-        ballAnimation = new Timeline(
-                new KeyFrame(new Duration(20.0), t -> {
-                    centerX.set(centerX.get() + speedX * speed * (movingRight ? 1 : -1));
-                    centerY.set(centerY.get() + speedY * speed * (movingDown ? 1 : -1));
-                    hasUpdated = true;
-                })
-        );
-        ballAnimation.setCycleCount(Timeline.INDEFINITE);
-        ballAnimation.playFromStart();
+        waitPeriod = new Timeline(
+                new KeyFrame(new Duration(2000.0), i -> {
+                    ballAnimation = new Timeline(
+                            new KeyFrame(new Duration(20.0), t -> {
+                                centerX.set(centerX.get() + speedX * speed * (movingRight ? 1 : -1));
+                                centerY.set(centerY.get() + speedY * speed * (movingDown ? 1 : -1));
+                                hasUpdated = true;
+                            })
+                    );
+                    ballAnimation.setCycleCount(Timeline.INDEFINITE);
+                    ballAnimation.playFromStart();
+                }));
+        waitPeriod.playFromStart();
         
         shape = new Circle(centerX.get(), centerY.get(), 5, Constants.BALL_COLOR);
         
@@ -72,7 +77,7 @@ public class Ball {
         double x2 = centerX.get();
         double y1 = paddle.getCenterY();
         double y2 = centerY.get();
-        System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2);
+        //System.out.println(x1 + ", " + x2 + ", " + y1 + ", " + y2);
         //System.out.println(Math.atan((y2 - y1) / (x2 - x1)));
         //System.out.println(Math.toDegrees(Math.atan((y1 - y2) / (x2 - x1))));
         //double ballAngle = ((Math.toDegrees(Math.atan(Math.abs((y2 - y1) / (x2 - x1)))) - Constants.PADDLE_DIAGONAL_ANGLE) / (180 - 2 * Constants.PADDLE_DIAGONAL_ANGLE)) * (180 - 2 * Constants.BALL_MIN_BOUNCE_ANGLE);

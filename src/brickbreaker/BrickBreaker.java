@@ -8,11 +8,14 @@ package brickbreaker;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
+import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.scene.Scene;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -26,13 +29,16 @@ public class BrickBreaker extends Application {
 
     private Ball mainBall;
     private Boundary mainBoundary;
-    private List<ArrayList<Brick>> brickList = new ArrayList();
+    private List<List<Brick>> brickList = new ArrayList();
     private Paddle mainPaddle;
     private Group mainGroup;
 
     Timeline mainTimeline;
 
     private IntegerProperty score = new SimpleIntegerProperty(0);
+    Text txtScore;
+    int lives = 3;
+    List<Circle> livesIconList = new ArrayList();
 
     @Override
     public void start(Stage primaryStage) {
@@ -79,8 +85,7 @@ public class BrickBreaker extends Application {
                 mainBall.changeYDirection();
             }
             if (mainBall.getShape().intersects(mainBoundary.getLowerBoundary().getBoundsInLocal())) {
-                System.out.println("game over");
-                System.exit(0);
+                decreaseLife();
             }
             
             if (mainBall.hasUpdated()) {
@@ -90,8 +95,21 @@ public class BrickBreaker extends Application {
         }));
         mainTimeline.setCycleCount(Timeline.INDEFINITE);
         mainTimeline.playFromStart();
+        
+        txtScore = new Text(10, -20, "Score");
+        txtScore.textProperty().bind(Bindings.format("Score: %1$d", score));
+        txtScore.setFill(Color.ORANGE);
+        txtScore.setStyle("-fx-font: 24 arial;");
+        mainGroup.getChildren().add(txtScore);
+        mainGroup.setLayoutY(Constants.SCORE_HEIGHT);
+        
+        for (int i = 0; i < lives; i++) {
+            Circle newLife = new Circle(Constants.SCREEN_WIDTH - 30 * i - 30, -25, Constants.BALL_SIZE, Constants.BALL_COLOR);
+            mainGroup.getChildren().add(newLife);
+            livesIconList.add(newLife);
+        }
 
-        scene = new Scene(mainGroup, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        scene = new Scene(mainGroup, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT + Constants.SCORE_HEIGHT);
         scene.setFill(Constants.SCREEN_COLOR);
 
         primaryStage.setScene(scene);
@@ -114,6 +132,18 @@ public class BrickBreaker extends Application {
                 }
             }
         }
+    }
+    
+    public void decreaseLife() {
+        lives -= 1;
+        if (lives <= 0) {
+            System.out.println("Game Over");
+            System.exit(0);
+        }
+        mainGroup.getChildren().remove(livesIconList.get(lives));
+        livesIconList.remove(lives);
+        mainBall = new Ball(Constants.BALL_STARTX, Constants.BALL_STARTY);
+        mainGroup.getChildren().add(mainBall.getShape());
     }
 
     public static void main(String[] args) {

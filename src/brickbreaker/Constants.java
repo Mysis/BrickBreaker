@@ -12,6 +12,7 @@ public final class Constants {
     public static final double SCREEN_WIDTH = 500;
     public static final double SCREEN_HEIGHT = 500;
     public static final Color SCREEN_COLOR = Color.BLACK;
+    public static final double SCORE_HEIGHT = 50;
     
     public static final double BOUNDARY_WIDTH = 10;
     public static final Color BOUNDARY_COLOR = Color.BROWN;
@@ -27,7 +28,7 @@ public final class Constants {
     
     public static final double PADDLE_WIDTH = 75;
     public static final double PADDLE_HEIGHT = 20;
-    public static final double PADDLE_SPEED = 8;
+    public static final double PADDLE_SPEED = 6;
     public static final Color PADDLE_COLOR = Color.GREEN;
     public static final double PADDLE_STARTX = (SCREEN_WIDTH - PADDLE_WIDTH) / 2;
     public static final double PADDLE_STARTY = SCREEN_HEIGHT - PADDLE_HEIGHT;
